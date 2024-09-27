@@ -39,7 +39,7 @@ Create two separate terminal sessions for doing this.
 
     ``` cmd
     cd backend
-    npm run watch
+
     ```
 
 2. Run the client
