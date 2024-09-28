@@ -2,6 +2,10 @@
 
 This repository contains a fake whatsApp built by Group 1 for the Interaction Design course at ITU.
 
+## version control -> ONLY WORK on YOUR OWN BRANCH:
+create your own branch: git checkout -b feat/task-description
+go to repo -> create merge request (pull request) -> confirm merge
+
 ## Installation
 
 Our application is divided into two areas, representing the functionality of two different components; backend and client (frontend). As these components are essentially distinct applications that are hosted on separate instances, they have individual dependencies that are required in order to run.
@@ -23,6 +27,7 @@ Our application is divided into two areas, representing the functionality of two
     ```
     cmd
     cd client
+    npm install
     npm start
     ```
 
