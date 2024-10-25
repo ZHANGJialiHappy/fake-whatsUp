@@ -3,8 +3,9 @@
 This repository contains a fake whatsApp built by Group 1 for the Interaction Design course at ITU.
 
 ## version control -> ONLY WORK on YOUR OWN BRANCH:
-create your own branch: git checkout -b feat/task-description
-go to repo -> create merge request (pull request) -> confirm merge
+create your own branch: git checkout development -> git checkout -b feat/task-description <br/>
+go to repo -> create merge request (pull request) to development -> confirm merge <br/>
+after teacher reviewed: create merge request (pull request) from development to main
 
 ## Installation
 
