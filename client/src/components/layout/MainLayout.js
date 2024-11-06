@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import NewRecipient from '../common/NewRecipient';
-import { parseService } from '../../services/parseService';
-import ChatItem from '../common/ChatItem';
-import Message from '../common/Message';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import NewRecipient from "../common/NewRecipient";
+import { parseService } from "../../services/parseService";
+import ChatItem from "../common/ChatItem";
+import Message from "../common/Message";
+import { useParams } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -53,7 +53,7 @@ const Input = styled.input`
 
 const Button = styled.button`
   padding: 12px 24px;
-  background: #007AFF;
+  background: #007aff;
   color: white;
   border: none;
   border-radius: 8px;
@@ -69,7 +69,7 @@ const MainLayout = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     fetchChats();
@@ -81,32 +81,32 @@ const MainLayout = () => {
       const fetchedChats = await parseService.getChats();
       setChats(fetchedChats);
     } catch (err) {
-      setError('Failed to load chats');
-      console.error('Error fetching chats:', err);
+      setError("Failed to load chats");
+      console.error("Error fetching chats:", err);
     } finally {
       setLoading(false);
     }
   };
 
   const handleChatAdded = (newChat) => {
-    setChats(prevChats => [newChat, ...prevChats]);
+    setChats((prevChats) => [newChat, ...prevChats]);
   };
 
   const handlePinUpdate = async (chatId, isPinned) => {
     try {
       // Update local state for single chat
-      setChats(prevChats => 
-        prevChats.map(chat => 
-          chat.id === chatId ? { ...chat, isPinned } : chat
-        ).sort((a, b) => {
-          // Sort pinned chats first
-          if (a.isPinned && !b.isPinned) return -1;
-          if (!a.isPinned && b.isPinned) return 1;
-          return 0;
-        })
+      setChats((prevChats) =>
+        prevChats
+          .map((chat) => (chat.id === chatId ? { ...chat, isPinned } : chat))
+          .sort((a, b) => {
+            // Sort pinned chats first
+            if (a.isPinned && !b.isPinned) return -1;
+            if (!a.isPinned && b.isPinned) return 1;
+            return 0;
+          })
       );
     } catch (error) {
-      console.error('Failed to update pin status:', error);
+      console.error("Failed to update pin status:", error);
     }
   };
 
@@ -114,31 +114,33 @@ const MainLayout = () => {
     try {
       const chatMessages = await parseService.getMessages(selfChatId, chatId);
       setMessages(chatMessages);
-      
+
       // Update local state for all chats
-      setChats(prevChats => 
-        prevChats.map(chat => ({
-          ...chat,
-          active: chat.id === chatId
-        })).sort((a, b) => {
-          // Keep pinned chats sorting
-          if (a.isPinned && !b.isPinned) return -1;
-          if (!a.isPinned && b.isPinned) return 1;
-          return 0;
-        })
+      setChats((prevChats) =>
+        prevChats
+          .map((chat) => ({
+            ...chat,
+            active: chat.id === chatId,
+          }))
+          .sort((a, b) => {
+            // Keep pinned chats sorting
+            if (a.isPinned && !b.isPinned) return -1;
+            if (!a.isPinned && b.isPinned) return 1;
+            return 0;
+          })
       );
     } catch (error) {
-      console.error('Failed to activate chat:', error);
+      console.error("Failed to activate chat:", error);
     }
   };
 
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
-    
+
     try {
-      const activeChat = chats.find(chat => chat.active);
+      const activeChat = chats.find((chat) => chat.active);
       if (!activeChat) return;
-debugger;
+      debugger;
       const newMessage = {
         text: inputValue,
         timestamp: new Date().toLocaleTimeString(),
@@ -150,27 +152,27 @@ debugger;
         activeChat.id,
         newMessage
       );
-      setMessages(prevMessages => [...prevMessages, savedMessage]);
-      setInputValue(''); // Clear input after sending
+      setMessages((prevMessages) => [...prevMessages, savedMessage]);
+      setInputValue(""); // Clear input after sending
     } catch (error) {
-      console.error('Failed to send message:', error);
+      console.error("Failed to send message:", error);
     }
   };
   return (
     <Container>
       <Sidebar>
-        <NewRecipient 
-          placeholder="New recipient" 
+        <NewRecipient
+          placeholder="New recipient"
           onChatAdded={handleChatAdded}
         />
-        
+
         <ChatList>
           {loading ? (
             <div>Loading chats...</div>
           ) : error ? (
             <div>{error}</div>
           ) : (
-            chats.map(chat => (
+            chats.map((chat) => (
               <ChatItem
                 key={chat.id}
                 id={chat.id}
@@ -188,24 +190,23 @@ debugger;
       </Sidebar>
 
       <ChatArea>
+        <MessagesContainer>
+          <Message messages={messages} />
+        </MessagesContainer>
 
-      <MessagesContainer>
-        <Message messages={messages} />
-       </MessagesContainer>
-
-       <MessageInput>
-      <Input 
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        placeholder="Type a message..."
-        onKeyPress={e => {
-          if (e.key === 'Enter') {
-            handleSendMessage();
-          }
-        }}
-      />
-      <Button onClick={handleSendMessage}>Send</Button>
-    </MessageInput>
+        <MessageInput>
+          <Input
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Type a message..."
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                handleSendMessage();
+              }
+            }}
+          />
+          <Button onClick={handleSendMessage}>Send</Button>
+        </MessageInput>
       </ChatArea>
     </Container>
   );

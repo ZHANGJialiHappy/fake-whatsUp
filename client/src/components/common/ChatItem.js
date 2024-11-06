@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { parseService } from '../../services/parseService';
+import React from "react";
+import styled from "styled-components";
+import { parseService } from "../../services/parseService";
 
 const ItemContainer = styled.div`
   display: flex;
@@ -8,10 +8,10 @@ const ItemContainer = styled.div`
   align-items: center;
   gap: 12px;
   cursor: pointer;
-  background: ${props => (props.active ? '#d0f0c0' : 'transparent')};
+  background: ${(props) => (props.active ? "#d0f0c0" : "transparent")};
   transition: background 0.2s;
   &:hover {
-    background: ${props => (props.active ? '#d0f0c0' : '#f5f5f5')};
+    background: ${(props) => (props.active ? "#d0f0c0" : "#f5f5f5")};
   }
 `;
 
@@ -46,14 +46,14 @@ const Name = styled.h4`
 `;
 
 const MessagePreview = styled.p`
-    margin: 0;
-    font-size: 14px;
-    color: '#666';
-    font-weight: '400';
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: left;
+  margin: 0;
+  font-size: 14px;
+  color: "#666";
+  font-weight: "400";
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
 `;
 
 const StatusContainer = styled.div`
@@ -63,24 +63,24 @@ const StatusContainer = styled.div`
 `;
 
 const StarIcon = styled.span`
-  color: ${props => props.isPinned ? '#007AFF' : '#ccc'};
+  color: ${(props) => (props.isPinned ? "#007AFF" : "#ccc")};
   cursor: pointer;
   font-size: 16px;
-  
+
   &:hover {
-    color: #007AFF;
+    color: #007aff;
   }
 `;
 
 const ChatItem = ({
   id,
-  name, 
-  message, 
+  name,
+  message,
   isPinned,
   active,
   avatar,
   onClick,
-  onPinUpdate
+  onPinUpdate,
 }) => {
   const handlePinClick = async (e) => {
     e.stopPropagation(); // Prevent chat item click
@@ -88,7 +88,7 @@ const ChatItem = ({
       const updatedChat = await parseService.pinChat(id, !isPinned);
       onPinUpdate?.(id, updatedChat.isPinned);
     } catch (error) {
-      console.error('Failed to update pin status:', error);
+      console.error("Failed to update pin status:", error);
     }
   };
   return (
@@ -98,17 +98,12 @@ const ChatItem = ({
         <TopLine>
           <Name>{name}</Name>
           <StatusContainer>
-            <StarIcon 
-              isPinned={isPinned} 
-              onClick={handlePinClick}
-            >
+            <StarIcon isPinned={isPinned} onClick={handlePinClick}>
               ★
             </StarIcon>
           </StatusContainer>
         </TopLine>
-        <MessagePreview>
-          {message}
-        </MessagePreview>
+        <MessagePreview>{message}</MessagePreview>
       </ContentContainer>
     </ItemContainer>
   );
