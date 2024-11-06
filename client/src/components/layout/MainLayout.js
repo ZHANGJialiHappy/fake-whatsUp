@@ -198,7 +198,7 @@ const MainLayout = () => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Type a message..."
-            onKeyPress={(e) => {
+            onKeyUp={(e) => {
               if (e.key === "Enter") {
                 handleSendMessage();
               }
