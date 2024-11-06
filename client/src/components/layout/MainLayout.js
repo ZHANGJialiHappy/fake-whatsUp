@@ -140,7 +140,6 @@ const MainLayout = () => {
     try {
       const activeChat = chats.find((chat) => chat.active);
       if (!activeChat) return;
-      debugger;
       const newMessage = {
         text: inputValue,
         timestamp: new Date().toLocaleTimeString(),
