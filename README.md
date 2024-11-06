@@ -5,7 +5,7 @@ This repository contains a fake whatsApp built by Group 1 for the Interaction De
 ## version control -> ONLY WORK on YOUR OWN BRANCH:
 create your own branch: git checkout development -> git checkout -b feat/task-description <br/>
 go to repo -> create merge request (pull request) to development -> confirm merge <br/>
-after teacher reviewed: create merge request (pull request) from development to main
+ask teacher to review: create merge request (pull request) from development to main, and assign teacher as reviewer <br/>
 
 ## Installation
 
@@ -15,7 +15,7 @@ Our application is divided into two areas, representing the functionality of two
 
     ``` git clone https://github.com/ZHANGJialiHappy/fake-whatsUp.git```
 
-2. Install dependencies for backend
+2. Tentative: Install dependencies for backend
 
     ```
     cmd
@@ -41,7 +41,7 @@ Both backend and client applications will need to be initialized.
 
 Create two separate terminal sessions for doing this.
 
-1. Run the backend
+1. Tentative: Run the backend
 
     ``` cmd
     cd backend
@@ -53,4 +53,5 @@ Create two separate terminal sessions for doing this.
     ```cmd
     cd client
     npm start
+    open the link: http://localhost:3000/chat/oA41G2y0yB
     ```
