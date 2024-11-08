@@ -15,15 +15,7 @@ Our application is divided into two areas, representing the functionality of two
 
     ``` git clone https://github.com/ZHANGJialiHappy/fake-whatsUp.git```
 
-2. Tentative: Install dependencies for backend
-
-    ```
-    cmd
-    cd backend
-
-    ```
-
-3. Install dependencies for client
+2. Install dependencies for client
 
     ```
     cmd
@@ -39,16 +31,9 @@ Both backend and client applications will need to be initialized.
 * The backend application runs on http://localhost:3000
 * The client application runs on http://localhost:3001.
 
-Create two separate terminal sessions for doing this.
+Create two separate terminal sessions for doing this. <br/>
 
-1. Tentative: Run the backend
-
-    ``` cmd
-    cd backend
-
-    ```
-
-2. Run the client
+Run the client
 
     ```cmd
     cd client
