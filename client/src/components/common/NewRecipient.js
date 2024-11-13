@@ -1,94 +1,60 @@
-import React, { useState } from 'react';
+// src/components/RecipientItem.js
+import React from 'react';
 import styled from 'styled-components';
-import { parseService } from '../../services/parseService';
 
-const SearchContainer = styled.div`
+const ItemContainer = styled.div`
   display: flex;
+  padding: 15px 20px;
   align-items: center;
-  gap: 10px;
-  padding: 10px 15px;
-  background: #fff;
-`;
-
-const SearchInput = styled.input`
-  flex: 1;
-  padding: 12px 15px;
-  border: 1px solid #eaeaea;
-  border-radius: 8px;
-  font-size: 14px;
-  outline: none;
-
-  &:focus {
-    border-color: #007AFF;
+  gap: 12px;
+  cursor: pointer;
+  background: ${props => (props.active ? '#d0f0c0' : 'transparent')};
+  transition: background 0.2s;
+  &:hover {
+    background: ${props => (props.active ? '#d0f0c0' : '#f5f5f5')};
   }
 `;
 
-const AddButton = styled.button`
-  width: 36px;
-  height: 36px;
+const Avatar = styled.div`
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  border: none;
-  background: #007AFF;
-  color: white;
-  font-size: 20px;
+  background: #ddd;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: background 0.2s;
-  opacity: ${props => props.disabled ? 0.5 : 1};
-
-  &:hover {
-    background: ${props => props.disabled ? '#007AFF' : '#0056b3'};
-  }
+  flex-shrink: 0;
 `;
 
-const NewRecipient = ({ onChatAdded }) => {
-  const [inputValue, setInputValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+const ContentContainer = styled.div`
+  flex: 1;
+  min-width: 0;
+`;
 
-  const handleAddChat = async () => {
-    if (!inputValue.trim()) {
-      return;
-    }
-    
-    setIsLoading(true);
-    try {
-      const newChat = {
-        name: inputValue,
-        message: "Start a conversation...",
-        isPinned: false,
-        avatar: inputValue[0].toUpperCase(),
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        active: false
-      };
-      
-      const savedChat = await parseService.saveChat(newChat);
-      onChatAdded?.(savedChat);
-      setInputValue('');
-    } catch (error) {
-      console.error('Failed to add chat:', error);
-      // Could add error handling UI here
-    } finally {
-      setIsLoading(false);
-    }
+const Name = styled.h4`
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+`;
+
+const RecipientItem = ({
+  id,
+  name,
+  active,
+  onClick
+}) => {
+  const handleClick = () => {
+    onClick?.(id); // Pass id to parent component
   };
-
   return (
-    <SearchContainer>
-      <SearchInput 
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        placeholder="New recipient..."
-      />
-      <AddButton 
-        onClick={handleAddChat}
-        disabled={isLoading || !inputValue.trim()}
-      >
-        {isLoading ? '...' : '+'}
-      </AddButton>
-    </SearchContainer>
+    <ItemContainer active={active} onClick={handleClick}>
+      <Avatar>{name && name[0]}</Avatar>
+      <ContentContainer>
+        <Name>{name}</Name>
+      </ContentContainer>
+    </ItemContainer>
   );
 };
 
-export default NewRecipient;
+export default RecipientItem;
