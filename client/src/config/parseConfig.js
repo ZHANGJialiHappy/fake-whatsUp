@@ -1,4 +1,5 @@
 import Parse from "parse";
+console.log(process.env);
 
 const PARSE_APPLICATION_ID = process.env.REACT_APP_PARSE_APPLICATION_ID;
 const PARSE_HOST_URL = "https://parseapi.back4app.com/";
