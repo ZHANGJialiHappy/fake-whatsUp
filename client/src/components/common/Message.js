@@ -41,10 +41,7 @@ const Message = ({ messages }) => {
       {messages.map((message) => (
         <MessageWrapper key={message.id} isSelf={message.isSelf}>
           <MessageBubble isSelf={message.isSelf}>{message.text}</MessageBubble>
-          <MessageMeta>
-            {message.timestamp}
-            {message.isSelf}
-          </MessageMeta>
+          <MessageMeta>{message.timestamp}</MessageMeta>
         </MessageWrapper>
       ))}
     </Container>

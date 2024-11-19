@@ -8,10 +8,10 @@ const ItemContainer = styled.div`
   align-items: center;
   gap: 12px;
   cursor: pointer;
-  background: ${props => (props.active ? '#d0f0c0' : 'transparent')};
+  background: ${props => (props.active ? '#D4F5D7' : 'transparent')};
   transition: background 0.2s;
   &:hover {
-    background: ${props => (props.active ? '#d0f0c0' : '#f5f5f5')};
+    background: ${props => (props.active ? '#D4F5D7' : '#f5f5f5')};
   }
 `;
 
