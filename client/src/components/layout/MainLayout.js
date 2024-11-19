@@ -68,7 +68,7 @@ const MainLayout = () => {
   const { selfId } = useParams();
   const [friends, setFriends] = useState([]);
   const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [inputValue, setInputValue] = useState('');
 
@@ -78,14 +78,14 @@ const MainLayout = () => {
 
   const fetchFriends = async () => {
     try {
-      setLoading(true);
+      setIsLoading(true);
       const fetchedFriends = await parseService.getFriends(selfId);
       setFriends(fetchedFriends);
     } catch (err) {
       setError('Failed to load friends');
       console.error('Error fetching friends:', err);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -150,7 +150,7 @@ const MainLayout = () => {
         />
         
         <RecipientList>
-          {loading ? (
+          {isLoading ? (
             <div>Loading friends...</div>
           ) : error ? (
             <div>{error}</div>

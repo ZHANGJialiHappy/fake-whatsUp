@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { parseService } from '../../services/parseService';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { parseService } from "../../services/parseService";
 
 const DropdownContainer = styled.div`
   position: relative;
@@ -17,7 +17,7 @@ const DropdownInput = styled.input`
   box-sizing: border-box;
 
   &:focus {
-    border-color: #007AFF;
+    border-color: #007aff;
   }
 `;
 
@@ -33,8 +33,8 @@ const DropdownList = styled.ul`
   border-radius: 8px;
   margin-top: 4px;
   padding: 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1;
 `;
 
 const DropdownItem = styled.li`
@@ -47,9 +47,9 @@ const DropdownItem = styled.li`
   }
 `;
 
-const NewRecipient = ({selfId, onConnect}) => {
+const NewRecipient = ({ selfId, onConnect }) => {
   const [recipients, setRecipients] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -62,7 +62,7 @@ const NewRecipient = ({selfId, onConnect}) => {
       const data = await parseService.getRecipients();
       setRecipients(data);
     } catch (error) {
-      console.error('Failed to fetch recipients:', error);
+      console.error("Failed to fetch recipients:", error);
     }
   };
 
@@ -71,16 +71,16 @@ const NewRecipient = ({selfId, onConnect}) => {
       setLoading(true);
       await parseService.makeFriends(selfId, recipient.id);
       onConnect?.(); // Optional callback
-      setSearchTerm('');
+      setSearchTerm("");
       setIsOpen(false);
     } catch (error) {
-      console.error('Failed to make friends:', error);
+      console.error("Failed to make friends:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  const filteredRecipients = recipients.filter(recipient =>
+  const filteredRecipients = recipients.filter((recipient) =>
     recipient.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -98,7 +98,7 @@ const NewRecipient = ({selfId, onConnect}) => {
       />
       {isOpen && (
         <DropdownList>
-          {filteredRecipients.map(recipient => (
+          {filteredRecipients.map((recipient) => (
             <DropdownItem
               key={recipient.id}
               onClick={() => handleSelect(recipient)}

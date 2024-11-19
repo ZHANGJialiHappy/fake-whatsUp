@@ -1,6 +1,6 @@
 // src/components/Message.js
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
@@ -12,15 +12,15 @@ const Container = styled.div`
 const MessageWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: ${props => props.isSelf ? 'flex-end' : 'flex-start'};
+  align-items: ${(props) => (props.isSelf ? "flex-end" : "flex-start")};
   max-width: 70%;
-  align-self: ${props => props.isSelf ? 'flex-end' : 'flex-start'};
+  align-self: ${(props) => (props.isSelf ? "flex-end" : "flex-start")};
 `;
 
 const MessageBubble = styled.div`
   padding: 12px 16px;
   border-radius: 16px;
-  background: ${props => props.isSelf ? '#DCF8C6' : '#E3F2FD'};
+  background: ${(props) => (props.isSelf ? "#D4F5D7" : "#E3EBF5")};
   color: #1a1a1a;
   font-size: 14px;
   line-height: 1.4;
@@ -38,11 +38,9 @@ const MessageMeta = styled.div`
 const Message = ({ messages }) => {
   return (
     <Container>
-      {messages.map(message => (
+      {messages.map((message) => (
         <MessageWrapper key={message.id} isSelf={message.isSelf}>
-          <MessageBubble isSelf={message.isSelf}>
-            {message.text}
-          </MessageBubble>
+          <MessageBubble isSelf={message.isSelf}>{message.text}</MessageBubble>
           <MessageMeta>
             {message.timestamp}
             {message.isSelf}
