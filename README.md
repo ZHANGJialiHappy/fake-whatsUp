@@ -38,5 +38,11 @@ Run the client
     ```cmd
     cd client
     npm start
-    open the link: http://localhost:3000/chat/oA41G2y0yB
     ```
+Playground(open the links): 
+```
+http://localhost:3000/ksTN1bW0vp
+```
+```
+http://localhost:3000/Ohncqw3Mfm
+```

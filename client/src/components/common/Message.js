@@ -1,3 +1,4 @@
+// src/components/Message.js
 import React from "react";
 import styled from "styled-components";
 
@@ -19,7 +20,7 @@ const MessageWrapper = styled.div`
 const MessageBubble = styled.div`
   padding: 12px 16px;
   border-radius: 16px;
-  background: ${(props) => (props.isSelf ? "#DCF8C6" : "#E3F2FD")};
+  background: ${(props) => (props.isSelf ? "#D4F5D7" : "#E3EBF5")};
   color: #1a1a1a;
   font-size: 14px;
   line-height: 1.4;
@@ -40,10 +41,7 @@ const Message = ({ messages }) => {
       {messages.map((message) => (
         <MessageWrapper key={message.id} isSelf={message.isSelf}>
           <MessageBubble isSelf={message.isSelf}>{message.text}</MessageBubble>
-          <MessageMeta>
-            {message.timestamp}
-            {message.isSelf}
-          </MessageMeta>
+          <MessageMeta>{message.timestamp}</MessageMeta>
         </MessageWrapper>
       ))}
     </Container>

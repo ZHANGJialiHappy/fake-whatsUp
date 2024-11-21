@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import NewRecipient from "../common/NewRecipient";
-import { parseService } from "../../services/parseService";
-import ChatItem from "../common/ChatItem";
-import Message from "../common/Message";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import NewRecipient from '../common/NewRecipient';
+import { parseService } from '../../services/parseService';
+import RecipientItem from '../common/RecipientItem';
+import Message from '../common/Message';
+import { useParams } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ const Sidebar = styled.div`
   flex-direction: column;
 `;
 
-const ChatList = styled.div`
+const RecipientList = styled.div`
   flex: 1;
   overflow-y: auto;
 `;
@@ -53,7 +53,7 @@ const Input = styled.input`
 
 const Button = styled.button`
   padding: 12px 24px;
-  background: #007aff;
+  background: #007AFF;
   color: white;
   border: none;
   border-radius: 8px;
@@ -63,149 +63,131 @@ const Button = styled.button`
     background: #0056b3;
   }
 `;
+
 const MainLayout = () => {
-  const { selfChatId } = useParams();
-  const [chats, setChats] = useState([]);
+  const { selfId } = useParams();
+  const [friends, setFriends] = useState([]);
   const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
-    fetchChats();
-  }, []);
+    fetchFriends();
+  }, [selfId]);
 
-  const fetchChats = async () => {
+  const fetchFriends = async () => {
     try {
-      setLoading(true);
-      const fetchedChats = await parseService.getChats();
-      setChats(fetchedChats);
+      setIsLoading(true);
+      const fetchedFriends = await parseService.getFriends(selfId);
+      setFriends(fetchedFriends);
     } catch (err) {
-      setError("Failed to load chats");
-      console.error("Error fetching chats:", err);
+      setError('Failed to load friends');
+      console.error('Error fetching friends:', err);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
-  const handleChatAdded = (newChat) => {
-    setChats((prevChats) => [newChat, ...prevChats]);
+  const onConnect = () => {
+    fetchFriends();
   };
 
-  const handlePinUpdate = async (chatId, isPinned) => {
+  const handleRecipientClick = async (recipientId) => {
     try {
-      // Update local state for single chat
-      setChats((prevChats) =>
-        prevChats
-          .map((chat) => (chat.id === chatId ? { ...chat, isPinned } : chat))
-          .sort((a, b) => {
-            // Sort pinned chats first
-            if (a.isPinned && !b.isPinned) return -1;
-            if (!a.isPinned && b.isPinned) return 1;
-            return 0;
-          })
+      // Update local state for all friends
+      setFriends(prevFriends => 
+        prevFriends.map(friend => ({
+          ...friend,
+          active: friend.id === recipientId
+        }))
       );
-    } catch (error) {
-      console.error("Failed to update pin status:", error);
-    }
-  };
 
-  const handleChatClick = async (chatId) => {
-    try {
-      const chatMessages = await parseService.getMessages(selfChatId, chatId);
-      setMessages(chatMessages);
-
-      // Update local state for all chats
-      setChats((prevChats) =>
-        prevChats
-          .map((chat) => ({
-            ...chat,
-            active: chat.id === chatId,
-          }))
-          .sort((a, b) => {
-            // Keep pinned chats sorting
-            if (a.isPinned && !b.isPinned) return -1;
-            if (!a.isPinned && b.isPinned) return 1;
-            return 0;
-          })
-      );
+      // Fetch messages for this friend
+      const messages = await parseService.getMessages(selfId, recipientId);
+      setMessages(messages);
     } catch (error) {
-      console.error("Failed to activate chat:", error);
+      console.error('Failed to activate recipient:', error);
     }
   };
 
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
-
+    
     try {
-      const activeChat = chats.find((chat) => chat.active);
-      if (!activeChat) return;
+      const activeFriend = friends.find(friend => friend.active);
+      if (!activeFriend) {
+        console.error('No active friend selected');
+        return;
+      }
+  
       const newMessage = {
         text: inputValue,
         timestamp: new Date().toLocaleTimeString(),
         isSelf: true,
+        isRead: false
       };
-
+  
       const savedMessage = await parseService.addMessage(
-        selfChatId,
-        activeChat.id,
+        selfId, 
+        activeFriend.id,
         newMessage
       );
-      setMessages((prevMessages) => [...prevMessages, savedMessage]);
-      setInputValue(""); // Clear input after sending
+  
+      setMessages(prevMessages => [...prevMessages, savedMessage]);
+      setInputValue(''); // Clear input after sending
     } catch (error) {
-      console.error("Failed to send message:", error);
+      console.error('Failed to send message:', error);
     }
   };
   return (
     <Container>
       <Sidebar>
-        <NewRecipient
-          placeholder="New recipient"
-          onChatAdded={handleChatAdded}
+        <NewRecipient 
+          placeholder="New recipient" 
+          onConnect={onConnect}
+          selfId={selfId}
         />
-
-        <ChatList>
-          {loading ? (
-            <div>Loading chats...</div>
+        
+        <RecipientList>
+          {isLoading ? (
+            <div>Loading friends...</div>
           ) : error ? (
             <div>{error}</div>
           ) : (
-            chats.map((chat) => (
-              <ChatItem
-                key={chat.id}
-                id={chat.id}
-                name={chat.name}
-                message={chat.message}
-                isPinned={chat.isPinned}
-                active={chat.active}
-                avatar={chat.avatar}
-                onClick={() => handleChatClick(chat.id)}
-                onPinUpdate={handlePinUpdate}
+            friends.map(friend => (
+              <RecipientItem
+                key={friend.id}
+                id={friend.id}
+                name={friend.name}
+                avatar={friend.avatar}
+                active={friend.active}
+                onClick={() => handleRecipientClick(friend.id)}
               />
             ))
           )}
-        </ChatList>
+        </RecipientList>
       </Sidebar>
 
       <ChatArea>
-        <MessagesContainer>
-          <Message messages={messages} />
-        </MessagesContainer>
 
-        <MessageInput>
-          <Input
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Type a message..."
-            onKeyUp={(e) => {
-              if (e.key === "Enter") {
-                handleSendMessage();
-              }
-            }}
-          />
-          <Button onClick={handleSendMessage}>Send</Button>
-        </MessageInput>
+      <MessagesContainer>
+        <Message messages={messages} />
+       </MessagesContainer>
+
+       <MessageInput>
+      <Input 
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        placeholder="Type a message..."
+        onKeyPress={e => {
+          if (e.key === 'Enter') {
+            handleSendMessage();
+          }
+        }}
+      />
+      <Button onClick={handleSendMessage}>Send</Button>
+    </MessageInput>
       </ChatArea>
     </Container>
   );
