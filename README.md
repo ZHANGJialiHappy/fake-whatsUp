@@ -26,12 +26,10 @@ Our application is divided into two areas, representing the functionality of two
 
 ## Running the application
 
-Both backend and client applications will need to be initialized.
+Client applications will need to be initialized.
+* The client application runs on http://localhost:3000
 
-* The backend application runs on http://localhost:3000
-* The client application runs on http://localhost:3001.
-
-Create two separate terminal sessions for doing this. <br/>
+Create a terminal sessions for doing this. <br/>
 
 Run the client
 
