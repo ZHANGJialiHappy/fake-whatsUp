@@ -12,7 +12,7 @@ const DropdownInput = styled.input`
   padding: 12px 15px;
   border: 1px solid #eaeaea;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 25px;
   outline: none;
   box-sizing: border-box;
 
