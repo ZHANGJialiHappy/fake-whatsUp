@@ -5,7 +5,6 @@ import { parseService } from "../../services/parseService";
 import RecipientItem from "../common/RecipientItem";
 import Message from "../common/Message";
 import { useParams } from "react-router-dom";
-import { MdOutlineVoiceChat } from "react-icons/md";
 import IconBar from "../common/IconBar";
 
 const Container = styled.div`
