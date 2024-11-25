@@ -5,7 +5,7 @@ import styled from "styled-components";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 25px;
   padding: 20px;
 `;
 
@@ -22,7 +22,7 @@ const MessageBubble = styled.div`
   border-radius: 16px;
   background: ${(props) => (props.isSelf ? "#D4F5D7" : "#E3EBF5")};
   color: #1a1a1a;
-  font-size: 14px;
+  font-size: 25px;
   line-height: 1.4;
   margin-bottom: 4px;
 `;
@@ -31,7 +31,7 @@ const MessageMeta = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 12px;
+  font-size: 25px;
   color: #666;
 `;
 

@@ -20,7 +20,7 @@ const IconButton = styled.button`
   cursor: pointer;
   padding: 8px;
   color: #666;
-  font-size: 32px;
+  font-size: 50px;
 
   &:hover {
     color: #007aff;

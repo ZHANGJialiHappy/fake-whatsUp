@@ -6,7 +6,7 @@ import RecipientItem from "../common/RecipientItem";
 import Message from "../common/Message";
 import { useParams } from "react-router-dom";
 import { MdOutlineVoiceChat } from "react-icons/md";
-import IconBar from '../common/IconBar';
+import IconBar from "../common/IconBar";
 
 const Container = styled.div`
   display: flex;
@@ -51,6 +51,7 @@ const Input = styled.input`
   border: 1px solid #eaeaea;
   border-radius: 8px;
   outline: none;
+  font-size: 25px;
 `;
 
 const Button = styled.button`
@@ -60,6 +61,7 @@ const Button = styled.button`
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  font-size: 25px;
 
   &:hover {
     background: #0056b3;
@@ -166,7 +168,6 @@ const MainLayout = () => {
     <Container>
       <Sidebar>
         <NewRecipient
-          placeholder="New recipient"
           onConnect={onConnect}
           selfId={selfId}
         />
