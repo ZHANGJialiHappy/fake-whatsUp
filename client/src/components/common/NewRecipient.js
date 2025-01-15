@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { parseService } from "../../services/parseService";
 
@@ -52,6 +52,7 @@ const NewRecipient = ({ selfId, onConnect }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     fetchRecipients();
@@ -84,8 +85,24 @@ const NewRecipient = ({ selfId, onConnect }) => {
     recipient.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  useEffect(() => {
+
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }; //moutain down 后，dropdownRef 变成null，removeEventListener
+
+  }, [dropdownRef]);
+
   return (
-    <DropdownContainer>
+    <DropdownContainer ref={dropdownRef}>
       <DropdownInput
         value={searchTerm}
         onChange={(e) => {

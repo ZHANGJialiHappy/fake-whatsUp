@@ -96,7 +96,7 @@ const MainLayout = () => {
   useEffect(() => {
     const intervalId = setInterval(pollMessages, 1000);
     // Cleanup on unmount
-    return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId); //只有unmoutained时会执行，或者pollMessages变了，先只想这行，然后再执行setInterval(pollMessages, 1000);跟新messages
   }, [pollMessages]);
 
   const fetchFriends = async () => {
