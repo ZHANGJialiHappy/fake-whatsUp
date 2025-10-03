@@ -1,6 +1,6 @@
 # Fake whatsApp
 
-This repository contains a fake whatsApp built by Group 1 for the Interaction Design course at ITU.
+This repository contains a fake whatsApp.
 
 ## version control -> ONLY WORK on YOUR OWN BRANCH:
 create your own branch: git checkout development -> git checkout -b feat/task-description <br/>
